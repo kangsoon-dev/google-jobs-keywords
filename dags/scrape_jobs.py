@@ -1,3 +1,5 @@
+from email.mime import application
+from wsgiref.util import application_uri
 import pandas as pd
 import datetime
 import logging
@@ -32,6 +34,7 @@ class GoogleJobsPageLocators:
     result_title = '[class*="Fol1qc"]'
     publisher = '[class*=vNEEBe]'
     details = '[class*=I2Cbhb]'
+    apply_link_cards = '[class*=DaDV9e]'
 
 def scroll_element_into_view_and_click(driver, element):
     driver.execute_script("arguments[0].scrollIntoView();", element)
@@ -122,6 +125,7 @@ def scrape_job(timekeeper, desc_card):
     job_desc = desc_card.find_element_by_css_selector(GoogleJobsPageLocators.job_desc_tag).text
     details_elements = desc_card.find_elements_by_css_selector(GoogleJobsPageLocators.details)
     time_posted, salary, job_type = unpack_details(details_elements)
+    application_link = [x.get_attribute("href") for x in desc_card.find_element_by_css_selector(GoogleJobsPageLocators.apply_link_cards).find_elements_by_xpath("//a[@href]") if x.text[:8] == "Apply on"]
 
     row = {
         "scrape_time": scrape_time,
@@ -132,11 +136,12 @@ def scrape_job(timekeeper, desc_card):
         "salary":salary,
         "job_type":job_type,
         "desc":job_desc,
+        "application_link":application_link
     }
 
     df = pd.DataFrame.from_dict([row])
     try:
-        df.to_csv(OUTPUT_FILE_DIR, mode='a', header=not os.path.exists(OUTPUT_FILE_DIR),index=False)
+        df.to_csv(OUTPUT_FILE_DIR, mode='a', encoding='CP1252',header=not os.path.exists(OUTPUT_FILE_DIR),index=False)
     except Exception as e:
         logging.info("error with encoding on row:" + job_title + "@" + publisher)
         return
