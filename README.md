@@ -13,8 +13,6 @@ Please also ensure that your version of Chromedriver is compatible with the brow
 # Usage
 The script can be run from the command line using: <code>$python3 scrape_jobs.py [commands]</code>
 
-If you get confused about which commands to use, use the -h flag. 
-
 <code>
 $ python3 scrape_jobs.py 
 usage: scrape_jobs.py [--search_term] [--limit] [--is_today]
