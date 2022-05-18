@@ -14,8 +14,10 @@ Please also ensure that your version of Chromedriver is compatible with the brow
 The script can be run from the command line using: <code>$python3 scrape_jobs.py [commands]</code>
 
 <code>
-$ python3 scrape_jobs.py 
-usage: scrape_jobs.py [--search_term] [--limit] [--is_today]
+$ python3 scrape_jobs.py <p>
+usage: scrape_jobs.py [--search_term] [--limit] [--is_today] <p>
+  
+arguments: <br>
 
   -search_term  Search term to find in Google Job Search
 
@@ -23,4 +25,4 @@ usage: scrape_jobs.py [--search_term] [--limit] [--is_today]
                 
   -is_today     Indicates whether to return results posted only from the last 24 hours.
 
-</code>
+  </code>
